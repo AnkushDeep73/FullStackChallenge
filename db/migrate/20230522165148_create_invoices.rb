@@ -7,6 +7,7 @@ class CreateInvoices < ActiveRecord::Migration[7.0]
       t.decimal :amount, null: false
       t.date :due_date, null: false
       t.string :status, null: false
+      t.check_constraint "status IN ('CREATED', 'REJECTED', 'APPROVED', 'PURCHASED', 'CLOSED')"
 
       t.timestamps
     end

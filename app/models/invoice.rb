@@ -1,5 +1,5 @@
 class Invoice < ApplicationRecord
-  has_one_attached :image
+  has_one_attached :scan
 
   validates :number, presence: true
   validates :amount, presence: true

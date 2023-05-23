@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_171904) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["borrower_id"], name: "index_invoices_on_borrower_id"
+    t.check_constraint "status::text = ANY (ARRAY['CREATED'::character varying, 'REJECTED'::character varying, 'APPROVED'::character varying, 'PURCHASED'::character varying, 'CLOSED'::character varying]::text[])"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
