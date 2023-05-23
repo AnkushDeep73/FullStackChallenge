@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'borrowers/index'
-      post 'borrowers/create'
+      post 'borrowers/create', to: 'borrowers#create'
       get 'borrowers/show/:id', to: 'borrowers#show'
 
       post 'borrowers/:borrower_id/invoices/create', to: 'invoices#create'

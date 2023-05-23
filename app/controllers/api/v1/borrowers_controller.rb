@@ -31,6 +31,6 @@ class Api::V1::BorrowersController < ApplicationController
   end
 
   def set_invoices
-    @invoices = Invoice.select(:number).where(borrower_id: params[:id]).order(created_at: :desc)
+    @invoices = Invoice.select(:id, :number).where(borrower_id: params[:id]).order(created_at: :desc)
   end
 end
