@@ -17,7 +17,7 @@ class Api::V1::InvoicesController < ApplicationController
 
   def approve
     unless @invoice.status.eql? STATUSES[:created]
-      render json: { error_message: "Only CREATED invoices can be APPROVED." } and return
+      render json: { error_message: "Only #{STATUSES[:created]} invoices can be #{STATUSES[:approved]}." } and return
     end
     @invoice.update(status: STATUSES[:approved])
     render json: { borrower: @borrower, invoice: @invoice }
@@ -25,7 +25,7 @@ class Api::V1::InvoicesController < ApplicationController
 
   def reject
     unless @invoice.status.eql? STATUSES[:created]
-      render json: { error_message: "Only CREATED invoices can be REJECTED." } and return
+      render json: { error_message: "Only #{STATUSES[:created]} invoices can be #{STATUSES[:rejected]}.." } and return
     end
     @invoice.update(status: STATUSES[:rejected])
     render json: { borrower: @borrower, invoice: @invoice }
@@ -33,7 +33,7 @@ class Api::V1::InvoicesController < ApplicationController
 
   def purchase
     unless @invoice.status.eql? STATUSES[:approved]
-      render json: { error_message: "Only ARPPVOED invoices can be PURCHASED." } and return
+      render json: { error_message: "Only #{STATUSES[:approved]} invoices can be #{STATUSES[:purchased]}." } and return
     end
     @invoice.update(status: STATUSES[:purchased])
     render json: { borrower: @borrower, invoice: @invoice }
@@ -41,7 +41,7 @@ class Api::V1::InvoicesController < ApplicationController
 
   def close
     unless @invoice.status.eql? STATUSES[:purchased]
-      render json: { error_message: "Only PURCHASED invoices can be CLOSED." } and return
+      render json: { error_message: "Only #{STATUSES[:purchased]} invoices can be #{STATUSES[:closed]}." } and return
     end
     @invoice.update(status: STATUSES[:closed])
     render json: { borrower: @borrower, invoice: @invoice }

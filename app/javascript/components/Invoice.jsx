@@ -83,7 +83,7 @@ const Invoice = () => {
     serverCall(url);
   };
   
-  // Fees calcuation is not defined and so it is always 0.0 until defined at which point a new column needs to be added to the Invoice model to maintain this.
+  // Fees calcuation is not defined and so it is always 0.0 until defined. When it is defined, a new column needs to be added to the Invoice model to maintain this.
   const fees = () => {
     return 0.0;
   };
