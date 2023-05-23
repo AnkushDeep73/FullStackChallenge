@@ -15,11 +15,11 @@ const Borrowers = () => {
         throw new Error("Error in connecting to the server.");
       })
       .then((response) => setBorrowers(response))
-      .catch(() => navigate("/"));
+      .catch(() => console.log(error.message));
   }, []);
 
   const allBorrowers = borrowers.map((borrower, index) => (
-    <div key={index} className="col-md-6 col-lg-4">
+    <div key={index} className="col-md-6 col-lg-4" style={{paddingBottom: "1%", paddingTop: "1%"}}>
       <div className="card mb-6">
         <div className="card-body">
           <h5 className="card-title">{borrower.name}</h5>

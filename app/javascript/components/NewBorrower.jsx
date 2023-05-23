@@ -69,8 +69,11 @@ const NewBorrower = () => {
             <button type="submit" className="btn custom-button mt-3">
               Create Borrower
             </button>
+            <Link to="/" className="btn btn-link mt-3">
+              Home
+            </Link>
             <Link to="/borrowers" className="btn btn-link mt-3">
-              Back to borrowers
+              View Borrowers
             </Link>
           </form>
         </div>

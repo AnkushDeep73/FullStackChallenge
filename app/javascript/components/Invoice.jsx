@@ -20,6 +20,69 @@ const Invoice = () => {
       .catch(() => console.log(error.message));
   }, [params.id]);
 
+  const serverCall = (url) => {
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Error in connecting to the server.");
+      })
+      .then((response) => window.location.reload(true))
+      .catch((error) => console.log(error.message));
+  };
+
+  const onApprove = (event) => {
+    event.preventDefault();
+    const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/approve`;
+
+    if (invoice.status != "CREATED") {
+      return;
+    }
+
+    serverCall(url);
+  };
+
+  const onReject = (event) => {
+    event.preventDefault();
+    const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/reject`;
+
+    if (invoice.status != "CREATED") {
+      return;
+    }
+
+    serverCall(url);
+  };
+
+  const onPurchase = (event) => {
+    event.preventDefault();
+    const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/purchase`;
+
+    if (invoice.status != "APPROVED") {
+      return;
+    }
+
+    serverCall(url);
+  };
+
+  const onClose = (event) => {
+    event.preventDefault();
+    const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/close`;
+
+    if (invoice.status != "PURCHASED") {
+      return;
+    }
+
+    serverCall(url);
+  };
+  
   // Fees calcuation is not defined and so it is always 0.0 until defined at which point a new column needs to be added to the Invoice model to maintain this.
   const fees = () => {
     return 0.0;
@@ -29,10 +92,10 @@ const Invoice = () => {
     if (invoice.status === "CREATED") {
       return (
         <div>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/approve`} className="btn custom-button">
+          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/approve`} onClick={(event) => onApprove(event)} className="btn custom-button">
             Approve
           </Link>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/reject`} className="btn custom-button">
+          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/reject`} onClick={(event) => onReject(event)} className="btn custom-button">
             Reject
           </Link>
         </div>
@@ -40,7 +103,7 @@ const Invoice = () => {
     } else if (invoice.status === "APPROVED") {
       return (
         <div>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/purchase`} className="btn custom-button">
+          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/purchase`} onClick={(event) => onPurchase(event)} className="btn custom-button">
             Purchase
           </Link>
         </div>
@@ -48,13 +111,13 @@ const Invoice = () => {
     } else if (invoice.status === "REJECTED") {
       return (
         <div>
-          There are no possible actions on a rejected invoice.
+          This invoice is rejected.
         </div>
       );
     } else if (invoice.status === "PURCHASED") {
       return (
         <div>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/close`} className="btn custom-button">
+          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/close`} onClick={(event) => onClose(event)} className="btn custom-button">
             Close
           </Link>
         </div>

@@ -22,7 +22,7 @@ const Borrower = () => {
 
   const allInvoices = () => {
     return invoices.map((invoice, index) => (
-      <div key={index} className="col-md-6 col-lg-4">
+      <div key={index} className="col-md-6 col-lg-4" style={{paddingBottom: "1%", paddingTop: "1%"}}>
         <div className="card mb-6">
           <div className="card-body">
             <h5 className="card-title">{invoice.number}</h5>
