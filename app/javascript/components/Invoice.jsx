@@ -6,6 +6,11 @@ const Invoice = () => {
   const navigate = useNavigate();
   const [borrower, setBorrower] = useState({ name: "" });
   const [invoice, setInvoice] = useState({ number: "", amount: 0.0, dueDate: "01/01/1970", status: "" });
+  const [authorizeInvoiceAction, setAuthorizeInvoiceAction] = useState(false);
+
+  const handleAuthorizeInvoiceActionChange = () => {
+    setAuthorizeInvoiceAction(!authorizeInvoiceAction);
+  };
 
   useEffect(() => {
     const url = `/api/v1/borrowers/${params.borrower_id}/invoices/show/${params.id}`;
@@ -43,7 +48,7 @@ const Invoice = () => {
     event.preventDefault();
     const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/approve`;
 
-    if (invoice.status != "CREATED") {
+    if (invoice.status != "CREATED" || !authorizeInvoiceAction) {
       return;
     }
 
@@ -54,7 +59,7 @@ const Invoice = () => {
     event.preventDefault();
     const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/reject`;
 
-    if (invoice.status != "CREATED") {
+    if (invoice.status != "CREATED" || !authorizeInvoiceAction) {
       return;
     }
 
@@ -65,7 +70,7 @@ const Invoice = () => {
     event.preventDefault();
     const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/purchase`;
 
-    if (invoice.status != "APPROVED") {
+    if (invoice.status != "APPROVED" || !authorizeInvoiceAction) {
       return;
     }
 
@@ -76,7 +81,7 @@ const Invoice = () => {
     event.preventDefault();
     const url = `/api/v1/borrowers/${params.borrower_id}/invoices/${params.id}/close`;
 
-    if (invoice.status != "PURCHASED") {
+    if (invoice.status != "PURCHASED" || !authorizeInvoiceAction) {
       return;
     }
 
@@ -92,20 +97,44 @@ const Invoice = () => {
     if (invoice.status === "CREATED") {
       return (
         <div>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/approve`} onClick={(event) => onApprove(event)} className="btn custom-button">
-            Approve
-          </Link>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/reject`} onClick={(event) => onReject(event)} className="btn custom-button">
-            Reject
-          </Link>
+          <label>
+            <input
+              type="checkbox"
+              checked={authorizeInvoiceAction}
+              onChange={() => { handleAuthorizeInvoiceActionChange() }}
+            />
+            &nbsp; I authorize the Approval or Rejection of this Invoice. &nbsp;
+          </label>
+          <br></br>
+          <br></br>
+          <div>
+            <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/approve`} onClick={(event) => onApprove(event)} className="btn custom-button">
+              Approve
+            </Link>
+            <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/reject`} onClick={(event) => onReject(event)} className="btn custom-button">
+              Reject
+            </Link>
+          </div>
         </div>
       );
     } else if (invoice.status === "APPROVED") {
       return (
         <div>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/purchase`} onClick={(event) => onPurchase(event)} className="btn custom-button">
-            Purchase
-          </Link>
+          <label>
+            <input
+              type="checkbox"
+              checked={authorizeInvoiceAction}
+              onChange={() => { handleAuthorizeInvoiceActionChange() }}
+            />
+            &nbsp; I authorize the Purchase of this Invoice. &nbsp;
+          </label>
+          <br></br>
+          <br></br>
+          <div>
+            <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/purchase`} onClick={(event) => onPurchase(event)} className="btn custom-button">
+              Purchase
+            </Link>
+          </div>
         </div>
       );
     } else if (invoice.status === "REJECTED") {
@@ -117,9 +146,21 @@ const Invoice = () => {
     } else if (invoice.status === "PURCHASED") {
       return (
         <div>
-          <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/close`} onClick={(event) => onClose(event)} className="btn custom-button">
-            Close
-          </Link>
+          <label>
+            <input
+              type="checkbox"
+              checked={authorizeInvoiceAction}
+              onChange={() => { handleAuthorizeInvoiceActionChange() }}
+            />
+            &nbsp; I authorize the Closure of this Invoice. &nbsp;
+          </label>
+          <br></br>
+          <br></br>
+          <div>
+            <Link to={`/borrower/${borrower.id}/invoice/${invoice.id}/close`} onClick={(event) => onClose(event)} className="btn custom-button">
+              Close
+            </Link>
+          </div>
         </div>
       );
     } else {
