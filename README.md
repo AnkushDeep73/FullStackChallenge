@@ -33,7 +33,8 @@ Note: For steps 1 to 6, we only needed the project name to be consistent with th
 
 * Database creation -
 
-Run ```rails db:migrate``` to create the tables.
+1. Run ```rails db:create``` to create the database.
+2. Run ```rails db:migrate``` to create the tables in the database.
 
 * Database initialization -
 
