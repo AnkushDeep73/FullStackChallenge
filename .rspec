@@ -1,2 +1,8 @@
 --require rails_helper
 --require spec_helper
+
+<% if ENV['TEST'] == 'integration' %>
+--pattern spec/integration/**/*_spec.rb
+<% else %>
+--pattern spec/unit/**/*_spec.rb
+<% end %>

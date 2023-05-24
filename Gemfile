@@ -60,6 +60,12 @@ group :development, :test do
 
   # For running unit tests and integration tests.
   gem "rspec-rails"
+
+  # Gems specific to integration testing.
+  gem 'capybara'
+  gem 'capybara-screenshot'
+  gem 'database_cleaner'
+  gem 'selenium-webdriver'
 end
 
 group :development do

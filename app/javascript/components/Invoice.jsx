@@ -5,7 +5,7 @@ const Invoice = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [borrower, setBorrower] = useState({ name: "" });
-  const [invoice, setInvoice] = useState({ number: "", amount: 0.0, dueDate: "01/01/1970", status: "" });
+  const [invoice, setInvoice] = useState({ number: "", amount: 0.0, due_date: "", status: "" });
   const [authorizeInvoiceAction, setAuthorizeInvoiceAction] = useState(false);
 
   const handleAuthorizeInvoiceActionChange = () => {
@@ -194,7 +194,7 @@ const Invoice = () => {
           <div className="col-sm-12 col-lg-7">
             <h5 className="mb-2">Due Date</h5>
             <div>
-                {invoice.dueDate}
+                {invoice.due_date}
             </div>
           </div>
           <br></br>
